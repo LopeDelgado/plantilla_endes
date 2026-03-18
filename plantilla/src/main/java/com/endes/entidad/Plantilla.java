@@ -24,11 +24,17 @@ public class Plantilla {
      * @throws IllegalArgumentException Si el empleado es nulo.
      */
     public void contratarEmpleado(Empleado empleado) {
-        if (empleado == null) {
-            throw new IllegalArgumentException("No se puede contratar un empleado nulo");
-        }
-        empleados.add(empleado);
-    }
+		if (empleado == null) {
+			throw new IllegalArgumentException("No se puede contratar un empleado nulo");
+		}
+		// Verificar si ya existe un empleado con el mismo DNI
+		boolean existeDNI = empleados.stream()
+				.anyMatch(e -> e.getDni().equals(empleado.getDni()));
+		if (existeDNI) {
+			throw new IllegalArgumentException("El empleado con DNI " + empleado.getDni() + " ya está contratado");
+		}
+		empleados.add(empleado);
+	}
 
     /**
      * Busca empleados por nombre o apellido.
@@ -43,3 +49,4 @@ public class Plantilla {
                 .toList();
     }
 }
+
